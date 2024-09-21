@@ -7,10 +7,10 @@
       >
         Keselamatan dan Kesehatan Kerja (K3) Games
       </h3>
-      <div class="p-7 w-[50vw] rounded">
+      <div class="p-7 w-[90vw] md:w-[50vw] rounded">
         <form
           @submit.prevent="startGame"
-          class="mx-auto flex flex-col gap-5 max-w-[50vw]"
+          class="mx-auto flex flex-col gap-5 md:max-w-[50vw]"
         >
           <label
             for="nama"
