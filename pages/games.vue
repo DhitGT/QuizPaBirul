@@ -1,9 +1,11 @@
 <template>
   <div>
     <navbar />
-    <level-selector
-      :currentLevel="user_info ? user_info.currentLevel + 1 : 1"
-    />
+    <div class="container mt-16">
+      <level-selector
+        :currentLevel="user_info ? user_info.currentLevel + 1 : 1"
+      />
+    </div>
   </div>
 </template>
 

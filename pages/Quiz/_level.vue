@@ -1,12 +1,15 @@
 <template>
   <div>
-    <question
-      v-if="currentQuestion"
-      :level="level"
-      :question="currentQuestion"
-      @next-question="goToNextQuestion"
-      @record-answer="recordAnswer"
-    />
+    <navbar />
+    <div class="container">
+      <question
+        v-if="currentQuestion"
+        :level="level"
+        :question="currentQuestion"
+        @next-question="goToNextQuestion"
+        @record-answer="recordAnswer"
+      />
+    </div>
   </div>
 </template>
 

@@ -1,46 +1,17 @@
 <template>
   <div>
-    <nav class="">
-      <div
-        class="max-w-screen-xl flex flex-wrap items-center justify-center mx-auto p-4"
-      >
-        <button
-          data-collapse-toggle="navbar-default"
-          type="button"
-          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
-          aria-controls="navbar-default"
-          aria-expanded="false"
-        >
-          <span class="sr-only">Open main menu</span>
-          <svg
-            class="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
-        </button>
-        <div
-          class="hidden w-full justify-center my-auto md:block md:w-auto"
-          id="navbar-default"
-        >
+    <nav class="fixed top-0 left-0 w-full bg-transparent z-50">
+      <div class="max-w-screen-xl flex items-center justify-center mx-auto p-4">
+        <div class="w-full justify-center my-auto block" id="navbar-default">
           <ul
-            class="font-medium flex my-auto items-center min-w-full flex-col p-4 md:p-0 md:flex-row md:space-x-8 md:mt-0"
+            class="font-medium flex justify-center items-center gap-6 p-0 mt-0"
           >
             <li>
               <a
                 href=""
                 class="flex items-center space-x-3 rtl:space-x-reverse"
               >
-                <img src="logo-smkn2.png" class="h-8" alt=" Logo" />
+                <img src="/logo-smkn2.png" class="h-6 md:h-8" alt="Logo" />
               </a>
             </li>
             <li>
@@ -48,7 +19,7 @@
                 href=""
                 class="flex items-center space-x-3 rtl:space-x-reverse"
               >
-                <img src="logo-pembatik.png" class="h-8" alt=" Logo" />
+                <img src="/logo-pembatik.png" class="h-6 md:h-8" alt="Logo" />
               </a>
             </li>
             <li>
@@ -56,7 +27,7 @@
                 href=""
                 class="flex items-center space-x-3 rtl:space-x-reverse"
               >
-                <img src="pmm.png" class="h-8" alt=" Logo" />
+                <img src="/pmm.png" class="h-6 md:h-8" alt="Logo" />
               </a>
             </li>
             <li>
@@ -64,7 +35,7 @@
                 href=""
                 class="flex items-center space-x-3 rtl:space-x-reverse"
               >
-                <img src="tut-wuri.png" class="h-8" alt=" Logo" />
+                <img src="/tut-wuri.png" class="h-6 md:h-8" alt="Logo" />
               </a>
             </li>
           </ul>
@@ -73,3 +44,14 @@
     </nav>
   </div>
 </template>
+
+<style scoped>
+/* Optional: adds a blur effect to the background */
+nav {
+  background-color: rgba(0, 0, 0, 0); /* Transparent background */
+}
+
+ul {
+  list-style: none; /* Remove list bullets */
+}
+</style>
