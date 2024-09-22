@@ -2,8 +2,23 @@
   <div>
     <navbar />
     <div class="container">
+      <!-- Conditionally render the question type -->
+      <drag-drop-question
+        v-if="currentQuestion && currentQuestion.type === 'drag'"
+        :level="level"
+        :question="currentQuestion"
+        @next-question="goToNextQuestion"
+        @record-answer="recordAnswer"
+      />
       <question
-        v-if="currentQuestion"
+        v-else-if="currentQuestion && currentQuestion.type === 'regular'"
+        :level="level"
+        :question="currentQuestion"
+        @next-question="goToNextQuestion"
+        @record-answer="recordAnswer"
+      />
+      <yes-no-question
+        v-else-if="currentQuestion && currentQuestion.type === 'true-false'"
         :level="level"
         :question="currentQuestion"
         @next-question="goToNextQuestion"
@@ -18,25 +33,23 @@ export default {
   data() {
     return {
       level: parseInt(this.$route.params.level) || 1,
-      questions: {}, // Load your questions here
+      questions: {},
       currentQuestionIndex: 0,
-      correctAnswers: 0, // Track correct answers
-      incorrectAnswers: 0, // Track incorrect answers
+      correctAnswers: 0,
+      incorrectAnswers: 0,
     }
   },
   computed: {
     currentQuestion() {
-      // Check if the level exists and if the current index is valid
       if (
         this.questions[this.level] &&
         this.currentQuestionIndex < this.questions[this.level].length
       ) {
         return this.questions[this.level][this.currentQuestionIndex]
       }
-      return null // Return null if there's no valid question
+      return null
     },
   },
-
   methods: {
     loadQuestions() {
       this.questions = {
@@ -45,137 +58,147 @@ export default {
             text: 'Apa warna langit pada hari cerah?',
             options: ['Merah', 'Biru', 'Hijau', 'Kuning'],
             correct: 'Biru',
+            type: 'regular',
           },
           {
             text: 'Apa ibukota Indonesia?',
             options: ['Jakarta', 'Bandung', 'Surabaya', 'Medan'],
             correct: 'Jakarta',
+            type: 'regular',
           },
           {
-            text: 'Siapa presiden pertama Indonesia?',
-            options: ['Sukarno', 'Suharto', 'Jokowi', 'B.J. Habibie'],
-            correct: 'Sukarno',
+            text: 'Apa nama presiden pertama Indonesia?',
+            options: [
+              'Soeharto',
+              'B.J. Habibie',
+              'Soekarno',
+              'Susilo Bambang Yudhoyono',
+            ],
+            correct: 'Soekarno',
+            type: 'regular',
           },
           {
-            text: 'Apa nama hewan yang bisa terbang?',
-            options: ['Kucing', 'Burung', 'Anjing', 'Ikan'],
-            correct: 'Burung',
-          },
-          {
-            text: 'Siapa penemu telepon?',
+            text: 'Siapa penemu lampu pijar?',
             options: [
               'Alexander Graham Bell',
               'Thomas Edison',
               'Nikola Tesla',
               'Isaac Newton',
             ],
-            correct: 'Alexander Graham Bell',
+            correct: 'Thomas Edison',
+            type: 'regular',
+          },
+          {
+            text: 'Apa bentuk bumi?',
+            options: ['Datar', 'Bulat', 'Tabung', 'Piramida'],
+            correct: 'Bulat',
+            type: 'regular',
           },
         ],
         2: [
           {
-            text: 'Apa ibukota Jepang?',
-            options: ['Tokyo', 'Seoul', 'Beijing', 'Bangkok'],
-            correct: 'Tokyo',
-          },
-          {
-            text: 'Siapa penulis Harry Potter?',
+            text: 'Siapa yang menulis "Laskar Pelangi"?',
             options: [
-              'J.K. Rowling',
-              'Stephen King',
-              'George R.R. Martin',
-              'Tolkien',
+              'Andrea Hirata',
+              'Habibie',
+              'Tere Liye',
+              'Pramoedya Ananta Toer',
             ],
-            correct: 'J.K. Rowling',
+            correct: 'Andrea Hirata',
+            type: 'regular',
           },
           {
-            text: 'Apa nama planet kedua dari matahari?',
-            options: ['Bumi', 'Venus', 'Mars', 'Merkurius'],
-            correct: 'Venus',
+            text: 'Berapa banyak pulau di Indonesia?',
+            options: ['13.000', '17.000', '18.000', '15.000'],
+            correct: '17.000',
+            type: 'regular',
           },
           {
-            text: 'Apa nama benua terbesar?',
-            options: ['Afrika', 'Asia', 'Eropa', 'Amerika'],
-            correct: 'Asia',
+            text: 'Siapa penemu hukum gravitasi?',
+            options: ['Einstein', 'Newton', 'Galileo', 'Kepler'],
+            correct: 'Newton',
+            type: 'regular',
           },
           {
-            text: 'Siapa yang menciptakan teori relativitas?',
+            text: 'Apa warna bendera Indonesia?',
             options: [
-              'Isaac Newton',
-              'Albert Einstein',
-              'Galileo',
-              'Nikola Tesla',
+              'Merah Putih',
+              'Biru Putih',
+              'Hijau Putih',
+              'Kuning Putih',
             ],
-            correct: 'Albert Einstein',
+            correct: 'Merah Putih',
+            type: 'regular',
+          },
+          {
+            text: 'Apa mata uang Indonesia?',
+            options: ['Dollar', 'Euro', 'Rupiah', 'Yen'],
+            correct: 'Rupiah',
+            type: 'regular',
           },
         ],
         3: [
           {
-            text: 'Apa ibu kota Perancis?',
-            options: ['Paris', 'London', 'Berlin', 'Madrid'],
-            correct: 'Paris',
+            text: 'Apakah Indonesia adalah negara kepulauan?',
+            correct: true,
+            type: 'true-false',
           },
           {
-            text: 'Apa alat musik yang memiliki 88 tuts?',
-            options: ['Gitar', 'Biola', 'Piano', 'Drum'],
-            correct: 'Piano',
+            text: 'Apakah bumi datar?',
+            correct: false,
+            type: 'true-false',
           },
           {
-            text: 'Apa gas yang kita hirup?',
-            options: ['Karbon dioksida', 'Oksigen', 'Hidrogen', 'Nitrogen'],
-            correct: 'Oksigen',
+            text: 'Apakah hewan dapat bernafas tanpa oksigen?',
+            correct: false,
+            type: 'true-false',
           },
           {
-            text: 'Siapa pelukis Mona Lisa?',
-            options: [
-              'Vincent van Gogh',
-              'Pablo Picasso',
-              'Leonardo da Vinci',
-              'Claude Monet',
-            ],
-            correct: 'Leonardo da Vinci',
+            text: 'Apakah semua burung bisa terbang?',
+            correct: false,
+            type: 'true-false',
           },
           {
-            text: 'Apa nama sungai terpanjang di dunia?',
-            options: ['Amazon', 'Nile', 'Yangtze', 'Mississippi'],
-            correct: 'Nile',
+            text: 'Apakah tanaman membutuhkan cahaya matahari untuk fotosintesis?',
+            correct: true,
+            type: 'true-false',
           },
         ],
         4: [
           {
-            text: 'Apa nama hewan terbesar di darat?',
-            options: ['Gajah', 'Jerapah', 'Bison', 'Kuda'],
-            correct: 'Gajah',
+            text: 'Mana logo yang benar?',
+            options: ['/logo1.png', '/logo2.png', '/logo3.png', '/logo4.png'],
+            correct: '/logo2.png',
+            type: 'drag',
           },
           {
-            text: 'Apa nama kota terpadat di dunia?',
-            options: ['Tokyo', 'Delhi', 'Shanghai', 'Sao Paulo'],
-            correct: 'Tokyo',
-          },
-          {
-            text: 'Apa bahan utama dalam roti?',
-            options: ['Gula', 'Garam', 'Tepung', 'Susu'],
-            correct: 'Tepung',
-          },
-          {
-            text: 'Apa nama sistem planet kita?',
+            text: 'Tempatkan gambar berikut ke kategori yang tepat.',
             options: [
-              'Galaksi Bima Sakti',
-              'Galaksi Andromeda',
-              'Galaksi Sombrero',
-              'Galaksi Triangulum',
+              '/gambar1.png',
+              '/gambar2.png',
+              '/gambar3.png',
+              '/gambar4.png',
             ],
-            correct: 'Galaksi Bima Sakti',
+            correct: ['/gambar2.png', '/gambar4.png'],
+            type: 'drag',
           },
           {
-            text: 'Siapa penemu hukum gravitasi?',
-            options: [
-              'Albert Einstein',
-              'Isaac Newton',
-              'Galileo',
-              'Nikola Tesla',
-            ],
-            correct: 'Isaac Newton',
+            text: 'Tempatkan hewan ke dalam kelompok mamalia.',
+            options: ['/anjing.png', '/ikan.png', '/kucing.png', '/burung.png'],
+            correct: ['/anjing.png', '/kucing.png'],
+            type: 'drag',
+          },
+          {
+            text: 'Mana buah yang sehat?',
+            options: ['/apel.png', '/keripik.png', '/pisang.png', '/cola.png'],
+            correct: ['/apel.png', '/pisang.png'],
+            type: 'drag',
+          },
+          {
+            text: 'Tempatkan warna ke kategori hangat dan dingin.',
+            options: ['/merah.png', '/biru.png', '/kuning.png', '/hijau.png'],
+            correct: ['/merah.png', '/kuning.png'], // Hot colors
+            type: 'drag',
           },
         ],
       }
@@ -183,7 +206,6 @@ export default {
     goToNextQuestion() {
       this.currentQuestionIndex++
       if (this.currentQuestionIndex >= this.questions[this.level].length) {
-        // Save user progress
         const levelProgress = {
           level: this.level,
           score: this.correctAnswers,
@@ -192,38 +214,35 @@ export default {
           totalQuestions: this.questions[this.level].length,
         }
 
-        let user
         const userInfo = this.$cookies.get('user_info')
+        let user
         if (userInfo) {
           user = JSON.parse(userInfo)
-          this.level
         }
 
-        const usernew = {
+        const updatedUser = {
           name: user.name,
           class: user.class,
           currentLevel: this.level,
         }
-        this.$cookies.set('user_info', JSON.stringify(usernew), { expires: 7 }) // expires in 7 days
-
+        this.$cookies.set('user_info', JSON.stringify(updatedUser), {
+          expires: 7,
+        })
         this.$cookies.set(
           `level_info_${this.level}`,
           JSON.stringify(levelProgress),
           { expires: 7 }
-        ) // expires in 7 days
+        )
 
-        // Check if there are more levels
         if (this.level < 4) {
-          this.currentQuestionIndex = 0 // Reset index for the new level
-          this.correctAnswers = 0 // Reset correct answers for new level
-          this.incorrectAnswers = 0 // Reset incorrect answers for new level
-          alert(`Level ${this.level - 1} selesai!`)
+          this.currentQuestionIndex = 0
+          this.correctAnswers = 0
+          this.incorrectAnswers = 0
+          alert(`Level ${this.level} selesai!`)
         } else {
-          // Handle completion logic
-          alert('Quiz selesai!') // Replace with your desired logic
+          alert('Quiz selesai!')
         }
 
-        // Redirect to games page after completing the level or quiz
         window.location.href = '/games'
       }
     },

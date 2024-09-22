@@ -1,24 +1,60 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen">
+  <div class="flex flex-col items-center justify-center min-h-screen pt-16">
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
+
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
-      <p class="text-lg mb-4 text-gray-900">{{ question.text }}</p>
-      <div class="space-y-2">
-        <button
-          v-for="(option, index) in question.options"
-          :key="index"
-          :style="{
-            backgroundColor: buttonColors[index],
-            color: getContrastColor(buttonColors[index]),
-          }"
-          class="w-full text-left py-3 px-4 rounded-lg hover:opacity-80 transition"
-          :disabled="isCooldown"
-          @click="selectAnswer(option)"
-        >
-          {{ option }}
-        </button>
+      <!-- Check if the question is an image question or text -->
+      <div v-if="isImageQuestion" class="mb-4">
+        <img
+          :src="question.text"
+          alt="Question Image"
+          class="w-full object-contain max-h-32"
+        />
+        />
+      </div>
+      <p v-else class="text-lg mb-4 text-gray-900">{{ question.text }}</p>
+
+      <div class="space-y-10">
+        <!-- Display image options if it's an image-based question -->
+        <div v-if="isImageOptions">
+          <button
+            v-for="(option, index) in question.options"
+            :key="index"
+            :style="{
+              backgroundColor: buttonColors[index],
+              color: getContrastColor(buttonColors[index]),
+            }"
+            class="w-full text-left py-3 px-4 rounded-lg hover:opacity-80 transition my-3"
+            :disabled="isCooldown"
+            @click="selectAnswer(option)"
+          >
+            <img
+              :src="option"
+              alt="Option Image"
+              class="w-full object-contain max-h-32"
+            />
+          </button>
+        </div>
+
+        <!-- Display text options if it's a text-based question -->
+        <div v-else>
+          <button
+            v-for="(option, index) in question.options"
+            :key="index"
+            :style="{
+              backgroundColor: buttonColors[index],
+              color: getContrastColor(buttonColors[index]),
+            }"
+            class="w-full text-left py-3 px-4 rounded-lg hover:opacity-80 transition my-3"
+            :disabled="isCooldown"
+            @click="selectAnswer(option)"
+          >
+            {{ option }}
+          </button>
+        </div>
       </div>
     </div>
+
     <p v-if="selectedAnswer" class="mt-4 text-white">
       Anda memilih: {{ selectedAnswer }}
       <span v-if="isCorrect" class="text-green-500">✔️ Benar!</span>
@@ -26,6 +62,7 @@
         >❌ Salah!<br />Jawaban yang benar adalah: {{ question.correct }}</span
       >
     </p>
+
     <div v-if="isCooldown" class="mt-4 w-full">
       <div class="bg-gray-200 rounded-full h-2">
         <div
@@ -59,6 +96,19 @@ export default {
       progress: 0,
       cooldownTime: 3, // Cooldown time in seconds
     }
+  },
+  computed: {
+    // Check if the question text is an image (assuming it's a URL)
+    isImageQuestion() {
+      return this.isImage(this.question.text)
+    },
+    // Check if the options are images (assuming they are URLs)
+    isImageOptions() {
+      return (
+        this.question.options &&
+        this.question.options.every((option) => this.isImage(option))
+      )
+    },
   },
   mounted() {
     this.generateButtonColors()
@@ -97,7 +147,7 @@ export default {
       this.cooldownTime = 3 // Reset cooldown time
       const interval = setInterval(() => {
         this.cooldownTime -= 1
-        this.progress += 20 // Progress bar fills up
+        this.progress += 33 // Progress bar fills up
         if (this.cooldownTime <= 0) {
           clearInterval(interval)
           this.isCooldown = false
@@ -109,8 +159,12 @@ export default {
         }
       }, 1000)
     },
+    // Check if a value is an image URL (basic check based on file extension)
+    isImage(option) {
+      return (
+        typeof option === 'string' && option.match(/\.(jpeg|jpg|gif|png|svg)$/i)
+      )
+    },
   },
 }
 </script>
-
-
