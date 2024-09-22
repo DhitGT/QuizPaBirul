@@ -2,6 +2,17 @@
   <div class="flex flex-col items-center justify-center min-h-screen">
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
+
+      <!-- Check if the question has an image -->
+      <div v-if="isImageQuestion" class="mb-4">
+        <img
+          :src="question.imgQ"
+          alt="Question Image"
+          class="w-full object-contain max-h-32"
+        />
+      </div>
+
+      <!-- Display question text -->
       <p class="text-lg mb-4 text-gray-900">{{ question.text }}</p>
 
       <!-- True/False Buttons -->
@@ -68,6 +79,12 @@ export default {
       cooldownTime: 3, // Cooldown time in seconds
     }
   },
+  computed: {
+    // Check if the question contains an image
+    isImageQuestion() {
+      return this.question.imgQ && this.isImage(this.question.imgQ)
+    },
+  },
   methods: {
     selectAnswer(answer) {
       if (!this.isCooldown) {
@@ -81,7 +98,6 @@ export default {
         this.startCooldown()
       }
     },
-
     startCooldown() {
       this.isCooldown = true
       this.progress = 0
@@ -102,6 +118,12 @@ export default {
           this.$emit('next-question')
         }
       }, 1000)
+    },
+    // Check if a value is an image URL (basic check based on file extension)
+    isImage(option) {
+      return (
+        typeof option === 'string' && option.match(/\.(jpeg|jpg|gif|png|svg)$/i)
+      )
     },
   },
 }

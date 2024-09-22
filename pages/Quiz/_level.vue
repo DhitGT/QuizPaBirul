@@ -190,6 +190,110 @@ export default {
             type: 'regular',
           },
         ],
+        3: [
+          {
+            text: 'Benar Atau Salah rambu ini memiliki fungsi “bahaya tengangan tinggi”  ?',
+            imgQ: '/k3/Rambu K3 Peringatan (bahaya tegangan tinggi).jpg',
+            correct: true,
+            type: 'true-false',
+          },
+          {
+            text: 'Benar Atau Salah rambu ini memiliki fungsi “Rambu Bahaya Permukaan Tajam”',
+            imgQ: '/k3/Rambu K3 Peringatan (bahaya radioaktif).jpg',
+            correct: false,
+            type: 'true-false',
+          },
+          {
+            text: 'Benar Atau Salah rambu ini memiliki fungsi “Bahaya benda berputar” ',
+            imgQ: '/k3/Rambu K3 Peringatan (bahaya benda berputar).jpg',
+            correct: true,
+            type: 'true-false',
+          },
+          {
+            text: 'Benar Atau Salah rambu ini memiliki informasi tentang “Dilarang Membuat Api Terbuka”',
+            imgQ: '/k3/Rambu K3 Peringatan (mudah terbakar).jpg',
+            correct: false,
+            type: 'true-false',
+          },
+          {
+            text: 'Benar Atau Salah rambu ini memiliki informasi tentang “Dilarang Mendekat Area Tegangan Listrik Tinggi” ',
+            imgQ: '/k3/Rambu K3 Larangan(dilarang mendekat area tengangan tinggi).jpg',
+            correct: true,
+            type: 'true-false',
+          },
+        ],
+        4: [
+          {
+            text: 'Tempatkan alat pelindung diri (APD) yang termasuk dalam kategori wajib digunakan di lokasi konstruksi.',
+            options: [
+              '/k3/Safety Helmet (Helm Safety).png',
+              '/k3/Kacamata Safety (Safety Glasses).png',
+              '/k3/topi.jpeg',
+              '/k3/sandal.jpeg',
+              '/k3/Sepatu Safety (Safety Shoes).png',
+            ],
+            correct: [
+              '/k3/Safety Helmet (Helm Safety).png',
+              '/k3/Kacamata Safety (Safety Glasses).png',
+              '/k3/Sepatu Safety (Safety Shoes).png',
+            ],
+            type: 'drag',
+          },
+          {
+            text: 'Kelompokkan jenis bahan berbahaya di tempat kerja.',
+            options: [
+              '/k3/bahan bakar.jpeg',
+              '/k3/sabun.jpeg',
+              '/k3/minyak goreng.jpeg',
+              '/k3/bahan kimia.jpeg',
+              '/k3/air minum.jpeg',
+            ],
+            correct: ['/k3/bahan bakar.jpeg', '/k3/bahan kimia.jpeg'],
+            type: 'drag',
+          },
+          {
+            text: 'Identifikasi alat yang digunakan untuk mencegah kebakaran.',
+            options: [
+              '/k3/pemadam api.jpeg',
+              '/k3/bahan kimia.jpeg',
+              '/k3/bahan bakar.jpeg',
+              '/k3/fire sprinkler.jpeg',
+              '/k3/pembersih kaca.jpeg',
+            ],
+            correct: ['/k3/pemadam api.jpeg', '/k3/fire sprinkler.jpeg'],
+            type: 'drag',
+          },
+          {
+            text: 'Tentukan jenis APD yang diperlukan untuk bekerja di ketinggian.',
+            options: [
+              '/k3/Safety Belt (Sabuk Pengaman).png',
+              '/k3/topi.jpeg',
+              '/k3/Safety Helmet (Helm Safety).png',
+              '/k3/Masker (Respirator).png',
+              '/k3/Ear Plug (Penutup Telinga).png',
+            ],
+            correct: [
+              '/k3/Safety Belt (Sabuk Pengaman).png',
+              '/k3/Safety Helmet (Helm Safety).png',
+            ],
+            type: 'drag',
+          },
+          {
+            text: 'Kelompokkan peringatan yang terkait dengan rambu larangan',
+            options: [
+              '/k3/Rambu K3 Larangan(dilarang memadamkan dengan air).jpg',
+              '/k3/Rambu K3 Larangan(dilarang merokok).jpg',
+              '/k3/Limbah Beracun.png',
+              '/k3/Rambu K3 Peringatan (mudah terbakar).jpg',
+              '/k3/Rambu K3 Peringatan (bahaya tegangan tinggi).jpg',
+            ],
+            correct: [
+              '/k3/Rambu K3 Larangan(dilarang memadamkan dengan air).jpg',
+              '/k3/Rambu K3 Larangan(dilarang merokok).jpg',
+            ],
+            type: 'drag',
+          },
+        ],
       }
     },
     goToNextQuestion() {
