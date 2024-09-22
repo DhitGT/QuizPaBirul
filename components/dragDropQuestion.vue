@@ -115,6 +115,15 @@ export default {
       cooldownTime: 3, // Cooldown time in seconds
     }
   },
+  watch: {
+    // Watch for changes in the question and reset options and answers
+    question: {
+      handler(newQuestion) {
+        this.resetDraggableItems(newQuestion)
+      },
+      immediate: true,
+    },
+  },
   methods: {
     isImage(option) {
       return (
@@ -142,7 +151,6 @@ export default {
         this.startCooldown()
       }
     },
-
     startCooldown() {
       this.isCooldown = true
       this.progress = 0
@@ -161,7 +169,13 @@ export default {
         }
       }, 1000)
     },
+    resetDraggableItems(newQuestion) {
+      // Reset draggable items when question changes
+      this.draggableOptions = [...newQuestion.options]
+      this.draggableAnswer = []
+      this.isCorrect = null
+      this.selectedAnswer = null
+    },
   },
 }
 </script>
-

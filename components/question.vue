@@ -3,19 +3,21 @@
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
 
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
-      <!-- Check if the question is an image question or text -->
-      <div v-if="isImageQuestion" class="mb-4">
+      <!-- Display question text and image if both are available -->
+      <div class="mb-4">
+        <p v-if="question.text" class="text-lg mb-4 text-gray-900">
+          {{ question.text }}
+        </p>
         <img
-          :src="question.text"
+          v-if="question.imgQ"
+          :src="question.imgQ"
           alt="Question Image"
           class="w-full object-contain max-h-32"
         />
-        />
       </div>
-      <p v-else class="text-lg mb-4 text-gray-900">{{ question.text }}</p>
 
       <div class="space-y-10">
-        <!-- Display image options if it's an image-based question -->
+        <!-- Display image options if the options are images -->
         <div v-if="isImageOptions">
           <button
             v-for="(option, index) in question.options"
@@ -36,7 +38,7 @@
           </button>
         </div>
 
-        <!-- Display text options if it's a text-based question -->
+        <!-- Display text options if the options are text -->
         <div v-else>
           <button
             v-for="(option, index) in question.options"
@@ -98,10 +100,6 @@ export default {
     }
   },
   computed: {
-    // Check if the question text is an image (assuming it's a URL)
-    isImageQuestion() {
-      return this.isImage(this.question.text)
-    },
     // Check if the options are images (assuming they are URLs)
     isImageOptions() {
       return (
