@@ -131,7 +131,7 @@ export default {
               'e.	Limbah berbahaya bagi lingkungan (limbah tersebut diketahui dapat menimbulkan kerusakan bagi lingkungan maupun kerusakan pada ekosistem tertentu)',
             ],
             correct:
-              'c.	Limbah Korosif (Sifat korosif yang dimaksud ialah limbah yang mempunyai ciri untuk dapat menimbulkan iritasi pada kulit, menyebabkan pengkaratan pada baja, memiliki tingkat keasaman pH kurang dari 2 atau pH lebih dari 12,5)',
+              'Limbah Korosif (Sifat korosif yang dimaksud ialah limbah yang mempunyai ciri untuk dapat menimbulkan iritasi pada kulit, menyebabkan pengkaratan pada baja, memiliki tingkat keasaman pH kurang dari 2 atau pH lebih dari 12,5)',
             type: 'regular',
           },
           {
