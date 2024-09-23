@@ -2,7 +2,6 @@
   <div class="flex flex-col items-center justify-center min-h-screen">
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
-
       <!-- Check if the question has an image -->
       <div v-if="isImageQuestion" class="mb-4">
         <img
@@ -35,26 +34,39 @@
       </div>
     </div>
 
-    <!-- Feedback Section -->
-    <p v-if="selectedAnswer !== null" class="mt-4 text-white">
-      Anda memilih: <span>{{ selectedAnswer ? 'Benar' : 'Salah' }}</span>
-      <span v-if="isCorrect" class="text-green-500">✔️ Benar!</span>
-      <span v-else class="text-red-500"
-        >❌ Salah! Jawaban yang benar adalah:
-        {{ question.correct ? 'Benar' : 'Salah' }}</span
+    <!-- Modal Popup for Feedback -->
+    <transition name="modal-fade">
+      <div
+        v-if="selectedAnswer !== null"
+        class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
       >
-    </p>
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
+          <p class="text-lg mb-4">
+            Anda memilih:
+            <strong>{{ selectedAnswer ? 'Benar' : 'Salah' }}</strong>
+          </p>
+          <p v-if="isCorrect" class="text-green-500 text-xl">
+            ✔️ Jawaban Anda Benar!
+          </p>
+          <p v-else class="text-red-500 text-xl">
+            ❌ Jawaban Anda Salah! <br />
+            Jawaban yang benar adalah:
+            <strong>{{ question.correct ? 'Benar' : 'Salah' }}</strong>
+          </p>
 
-    <!-- Cooldown Progress -->
-    <div v-if="isCooldown" class="mt-4 w-full">
-      <div class="bg-gray-200 rounded-full h-2">
-        <div
-          class="bg-blue-600 h-2 rounded-full"
-          :style="{ width: `${progress}%` }"
-        ></div>
+          <!-- Cooldown progress bar inside the modal -->
+          <div class="mt-4 w-full">
+            <div class="bg-gray-200 rounded-full h-2">
+              <div
+                class="bg-blue-600 h-2 rounded-full"
+                :style="{ width: `${progress}%` }"
+              ></div>
+            </div>
+            <p class="text-gray-700 mt-2">Cooldown: {{ cooldownTime }} detik</p>
+          </div>
+        </div>
       </div>
-      <p class="text-white mt-2">Cooldown: {{ cooldownTime }} detik</p>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -129,6 +141,13 @@ export default {
 }
 </script>
 
-<style>
-/* Optional: Add any necessary styles here */
+<style scoped>
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.5s;
+}
+.modal-fade-enter,
+.modal-fade-leave-to {
+  opacity: 0;
+}
 </style>

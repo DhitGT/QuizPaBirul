@@ -1,11 +1,16 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen pt-16">
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
-
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
+    <audio ref="audioCorrect" src="/correct.mp3"></audio>
+    <div
+      class="bg-white backdrop-blur-lg p-6 rounded-lg shadow-lg w-full max-xl"
+    >
       <!-- Display question text and image if both are available -->
       <div class="mb-4">
-        <p v-if="question.text" class="text-lg mb-4 text-gray-900">
+        <p
+          v-if="question.text"
+          class="text-2xl font-extrabold mb-4 text-gray-200"
+        >
           {{ question.text }}
         </p>
         <img
@@ -22,11 +27,7 @@
           <button
             v-for="(option, index) in question.options"
             :key="index"
-            :style="{
-              backgroundColor: buttonColors[index],
-              color: getContrastColor(buttonColors[index]),
-            }"
-            class="w-full text-left py-3 px-4 rounded-lg hover:opacity-80 transition my-3"
+            class="w-full text-left py-3 px-4 rounded-lg hover:opacity-80 transition my-3 wood-texture"
             :disabled="isCooldown"
             @click="selectAnswer(option)"
           >
@@ -43,11 +44,7 @@
           <button
             v-for="(option, index) in question.options"
             :key="index"
-            :style="{
-              backgroundColor: buttonColors[index],
-              color: getContrastColor(buttonColors[index]),
-            }"
-            class="w-full text-left py-3 px-4 rounded-lg hover:opacity-80 transition my-3"
+            class="w-full text-left py-3 px-4 rounded-lg hover:opacity-80 transition my-3 wood-texture"
             :disabled="isCooldown"
             @click="selectAnswer(option)"
           >
@@ -57,22 +54,33 @@
       </div>
     </div>
 
-    <p v-if="selectedAnswer" class="mt-4 text-white">
-      Anda memilih: {{ selectedAnswer }}
-      <span v-if="isCorrect" class="text-green-500">✔️ Benar!</span>
-      <span v-else class="text-red-500"
-        >❌ Salah!<br />Jawaban yang benar adalah: {{ question.correct }}</span
+    <!-- Modal for displaying answer feedback and cooldown -->
+    <div
+      v-if="showModal"
+      class="fixed inset-0 flex items-center justify-center z-50"
+    >
+      <div
+        class="bg-gray-900 rounded-lg shadow-lg p-6 text-center w-[80vw] md:w-1/2"
       >
-    </p>
+        <p class="text-lg text-gray-200">
+          Anda memilih: {{ selectedAnswer }}
+          <span v-if="isCorrect" class="text-green-500">✔️ Benar!</span>
+          <span v-else class="text-red-500"
+            >❌ Salah!<br />Jawaban yang benar adalah:
+            {{ question.correct }}</span
+          >
+        </p>
 
-    <div v-if="isCooldown" class="mt-4 w-full">
-      <div class="bg-gray-200 rounded-full h-2">
-        <div
-          class="bg-blue-600 h-2 rounded-full"
-          :style="{ width: `${progress}%` }"
-        ></div>
+        <div class="mt-4 w-full">
+          <div class="bg-gray-200 rounded-full h-2">
+            <div
+              class="bg-blue-600 h-2 rounded-full"
+              :style="{ width: `${progress}%` }"
+            ></div>
+          </div>
+          <p class="text-gray-900 mt-2">Cooldown: {{ cooldownTime }} detik</p>
+        </div>
       </div>
-      <p class="text-white mt-2">Cooldown: {{ cooldownTime }} detik</p>
     </div>
   </div>
 </template>
@@ -93,10 +101,10 @@ export default {
     return {
       selectedAnswer: null,
       isCorrect: null,
-      buttonColors: [],
       isCooldown: false,
       progress: 0,
       cooldownTime: 3, // Cooldown time in seconds
+      showModal: false, // Controls modal visibility
     }
   },
   computed: {
@@ -108,41 +116,32 @@ export default {
       )
     },
   },
-  mounted() {
-    this.generateButtonColors()
-  },
   methods: {
     selectAnswer(option) {
       if (!this.isCooldown) {
         this.selectedAnswer = option
         this.isCorrect = option === this.question.correct
+        this.showModal = true // Show modal popup when answer is selected
+
+        // Play correct audio if the answer is correct
+        if (this.isCorrect) {
+          this.$refs.audioCorrect.play()
+        }
+
         this.startCooldown()
       }
     },
-    generateButtonColors() {
-      this.buttonColors = this.question.options.map(() => this.getRandomColor())
-    },
-    getRandomColor() {
-      const letters = '0123456789ABCDEF'
-      let color = '#'
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)]
-      }
-      return color
-    },
-    getContrastColor(hex) {
-      if (!hex) return '#000000' // Fallback color
-      hex = hex.replace('#', '')
-      const r = parseInt(hex.substring(0, 2), 16)
-      const g = parseInt(hex.substring(2, 4), 16)
-      const b = parseInt(hex.substring(4, 6), 16)
-      const luminance = 0.299 * r + 0.587 * g + 0.114 * b
-      return luminance > 186 ? '#000000' : '#FFFFFF'
+    // Check if a value is an image URL (basic check based on file extension)
+    isImage(option) {
+      return (
+        typeof option === 'string' && option.match(/\.(jpeg|jpg|gif|png|svg)$/i)
+      )
     },
     startCooldown() {
       this.isCooldown = true
       this.progress = 0
       this.cooldownTime = 3 // Reset cooldown time
+
       const interval = setInterval(() => {
         this.cooldownTime -= 1
         this.progress += 33 // Progress bar fills up
@@ -152,17 +151,47 @@ export default {
           this.progress = 0
           this.selectedAnswer = null // Reset selected answer after cooldown
 
+          // Close modal after cooldown
+          this.showModal = false
+
           this.$emit('record-answer', this.isCorrect) // Emit event to go to the next question
           this.$emit('next-question') // Emit event to go to the next question
         }
       }, 1000)
     },
-    // Check if a value is an image URL (basic check based on file extension)
-    isImage(option) {
-      return (
-        typeof option === 'string' && option.match(/\.(jpeg|jpg|gif|png|svg)$/i)
-      )
-    },
   },
 }
 </script>
+
+<style scoped>
+.wood-texture {
+  background-color: #234234;
+  color: white; /* Ensure text is readable on the texture */
+  border: none;
+}
+
+.bg-white {
+  background-color: rgba(255, 255, 255, 0.068);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(10px);
+}
+
+/* Modal Styles */
+.fixed {
+  position: fixed;
+}
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.z-50 {
+  z-index: 50;
+}
+.bg-opacity-50 {
+  background-opacity: 0.5;
+}
+</style>

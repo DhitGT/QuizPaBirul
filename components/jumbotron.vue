@@ -81,12 +81,12 @@
               />
             </svg>
           </a>
-          <!-- <a
-            href="#"
+          <a
+            href="/how"
             class="py-3 px-5 sm:ms-4 text-sm font-medium text-gray-400 focus:outline-none bg-gray-800 rounded-lg border border-gray-600 hover:bg-gray-700"
           >
             Cara Bermain
-          </a> -->
+          </a>
         </div>
       </div>
 

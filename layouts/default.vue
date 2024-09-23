@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app dark class="background-image">
     <v-main>
       <Nuxt />
     </v-main>
@@ -34,3 +34,13 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.background-image {
+  background-image: url('/bg-jungle.jpeg'); /* Update with the path to your image */
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  min-height: 100vh; /* Ensures the background covers the full height of the page */
+}
+</style>

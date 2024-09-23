@@ -1,5 +1,7 @@
-<template>
+<template >
   <div>
+
+
     <navbar />
     <div class="container mt-16">
       <level-selector
@@ -18,6 +20,7 @@ export default {
         : null,
     }
   },
+
   mounted() {
     this.user_info = this.$cookies.get('user_info')
       ? JSON.parse(this.$cookies.get('user_info'))
