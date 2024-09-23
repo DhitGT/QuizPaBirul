@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen">
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
-     <audio ref="audioCorrect" src="/correct.mp3"></audio>
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
+    <audio ref="audioCorrect" src="/correct.mp3"></audio>
+    <div
+      class="bg-white backdrop-blur-lg p-6 rounded-lg shadow-lg w-full max-xl"
+    >
       <!-- Check if the question has an image -->
       <div v-if="isImageQuestion" class="mb-4">
         <img
@@ -13,7 +15,9 @@
       </div>
 
       <!-- Display question text -->
-      <p class="text-lg mb-4 text-gray-900">{{ question.text }}</p>
+      <p class="text-2xl font-extrabold mb-4 text-gray-200">
+        {{ question.text }}
+      </p>
 
       <!-- True/False Buttons -->
       <div class="flex justify-center gap-4 mt-4">
@@ -41,8 +45,8 @@
         v-if="selectedAnswer !== null"
         class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
       >
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
-          <p class="text-lg mb-4">
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg max-w-sm text-center">
+          <p class="text-lg mb-4 text-gray-900">
             Anda memilih:
             <strong>{{ selectedAnswer ? 'Benar' : 'Salah' }}</strong>
           </p>
@@ -154,5 +158,13 @@ export default {
 .modal-fade-enter,
 .modal-fade-leave-to {
   opacity: 0;
+}
+
+.bg-white {
+  background-color: rgba(255, 255, 255, 0.068);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(10px);
 }
 </style>
