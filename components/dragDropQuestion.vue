@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col py-20 items-center justify-center min-h-screen">
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
+    <audio ref="audioCorrect" src="/correct.mp3"></audio>
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
       <p class="text-lg mb-4 text-gray-900">{{ question.text }}</p>
 
@@ -162,6 +163,10 @@ export default {
 
         this.isCorrect = allCorrect
         this.selectedAnswer = selectedAnswers.join(',')
+
+        if (this.isCorrect) {
+          this.$refs.audioCorrect.play()
+        }
 
         this.startCooldown()
       }

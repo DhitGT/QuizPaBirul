@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen">
     <h2 class="text-2xl font-bold text-white mb-4">Soal Level {{ level }}</h2>
+     <audio ref="audioCorrect" src="/correct.mp3"></audio>
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-xl">
       <!-- Check if the question has an image -->
       <div v-if="isImageQuestion" class="mb-4">
@@ -105,6 +106,10 @@ export default {
 
         // Check if the answer is correct
         this.isCorrect = answer === this.question.correct
+
+        if (this.isCorrect) {
+          this.$refs.audioCorrect.play()
+        }
 
         // Start cooldown after answering
         this.startCooldown()
