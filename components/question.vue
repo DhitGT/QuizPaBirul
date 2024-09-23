@@ -62,7 +62,7 @@
       <div
         class="bg-gray-900 rounded-lg shadow-lg p-6 text-center w-[80vw] md:w-1/2"
       >
-        <p class="text-lg text-gray-900">
+        <p class="text-lg text-gray-200">
           Anda memilih: {{ selectedAnswer }}
           <span v-if="isCorrect" class="text-green-500">✔️ Benar!</span>
           <span v-else class="text-red-500"
