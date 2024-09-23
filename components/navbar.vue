@@ -47,7 +47,7 @@
               >
                 <span v-if="isMuted" class="mdi mdi-volume-off"></span>
                 <span v-else class="mdi mdi-volume-high"></span>
-                <span class="ml-2">BGM</span>
+                <span class="ml-2 text-xs md:text-md">BGM</span>
               </button>
             </li>
           </ul>
