@@ -16,7 +16,7 @@
     <div class="absolute inset-0 bg-black opacity-50"></div>
 
     <!-- Content Section -->
-    <div
+    <v-container
       class="relative container z-10 py-8 px-4 mx-auto lg:max-w-full max-w-md grid lg:grid-cols-2 gap-8 lg:gap-16"
     >
       <!-- Image with Text Overlay on Mobile -->
@@ -98,7 +98,7 @@
           class="w-full h-auto max-w-md object-contain rounded-lg shadow-lg"
         />
       </div>
-    </div>
+    </v-container>
   </section>
 </template>
 
