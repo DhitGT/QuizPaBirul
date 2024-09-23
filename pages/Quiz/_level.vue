@@ -1,7 +1,7 @@
 <template>
   <div>
     <navbar />
-    <div class="container">
+    <v-container class="container">
       <!-- Conditionally render the question type -->
       <drag-drop-question
         v-if="currentQuestion && currentQuestion.type === 'drag'"
@@ -24,7 +24,7 @@
         @next-question="goToNextQuestion"
         @record-answer="recordAnswer"
       />
-    </div>
+    </v-container>
   </div>
 </template>
 
